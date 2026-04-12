@@ -7,7 +7,7 @@ using Allure.NUnit;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Threading;
-
+// BaseTest.cs = Test lifecycle management ==>Each class has one clear responsibility.
 namespace DemoNUnitProject.Base
 {
     public class BaseTest

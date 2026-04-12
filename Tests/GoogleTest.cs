@@ -41,7 +41,7 @@ namespace DemoNUnitProject.Tests
 
             GooglePage googlePage = new GooglePage(Driver);
 
-            Assert.That(googlePage.getTitle(), Does.Contain("Google"));
+            Assert.That(googlePage.getTitle(), Does.Contain("Abhishek"));
         }
     }
 }
