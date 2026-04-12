@@ -1,24 +1,7 @@
 pipeline {
     agent any
 
-    options {
-        skipDefaultCheckout(true)
-    }
-
     stages {
-
-        stage('Clean + Checkout Code') {
-            steps {
-                cleanWs()
-                checkout([$class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/AbhiAutomation/DemoNUnitProject.git',
-                        credentialsId: '19Jan25'
-                    ]]
-                ])
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
