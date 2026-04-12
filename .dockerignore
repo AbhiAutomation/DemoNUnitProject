@@ -1,0 +1,48 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio / IDE files
+.vs/
+*.user
+*.suo
+*.cache
+
+# Git metadata
+.git/
+.gitignore
+
+# Test reports
+allure-results/
+allure-report/
+TestResults/
+
+# Screenshots / logs
+screenshots/
+logs/
+*.log
+
+# OS temp files
+*.tmp
+*.temp
+Thumbs.db
+.DS_Store
+
+# Docker files not needed inside image
+docker-compose.yml
+docker-compose.override.yml
+
+# Node files (if any frontend tools exist)
+node_modules/
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+
+# NuGet local cache (optional)
+.nuget/
+
+# Markdown/docs (optional if not needed in runtime image)
+README.md
+*.md
