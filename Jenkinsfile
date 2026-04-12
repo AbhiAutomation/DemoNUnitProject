@@ -7,10 +7,16 @@ pipeline {
 
     stages {
 
-        stage('Clean Workspace') {
+        stage('Clean + Checkout Code') {
             steps {
                 cleanWs()
-                checkout scm
+                checkout([$class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/AbhiAutomation/DemoNUnitProject.git',
+                        credentialsId: '19Jan25'
+                    ]]
+                ])
             }
         }
 
