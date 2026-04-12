@@ -1,6 +1,18 @@
 pipeline {
     agent any
 
+     options {
+        skipDefaultCheckout(false)
+    }
+
+    stages {
+
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
     stages {
 
         stage('Build Docker Image') {
