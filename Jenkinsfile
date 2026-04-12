@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     options {
-        skipDefaultCheckout(false)
+        skipDefaultCheckout(true)
     }
 
     stages {
@@ -10,6 +10,7 @@ pipeline {
         stage('Clean Workspace') {
             steps {
                 cleanWs()
+                checkout scm
             }
         }
 
