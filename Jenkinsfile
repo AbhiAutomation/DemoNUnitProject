@@ -11,9 +11,16 @@ pipeline {
 
         stage('Run NUnit Tests') {
             steps {
-                bat 'docker run --rm -v "%cd%\\allure-results:/app/allure-results" nunit-automation'
-            }
-        }
+
+                 script {
+                     catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE')
+                       {
+                          bat 'docker run --rm -v "%cd%\\allure-results:/app/allure-results" nunit-automation'
+                       }           
+                   }
+          
+                }
+          }
 
         stage('Publish Allure Report') {
             steps {
@@ -22,7 +29,13 @@ pipeline {
                     jdk: '',
                     results: [[path: 'allure-results']]
                 ])
-            }
+               }
+        }
+    }
+
+     post {
+        always {
+            archiveArtifacts artifacts: 'allure-results/**', fingerprint: true
         }
     }
 }
