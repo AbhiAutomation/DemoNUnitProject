@@ -2,26 +2,32 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0
 
 WORKDIR /app
 
-COPY . .
+# Copy csproj first for cache optimization
+COPY *.csproj ./
 
-# Install required Linux packages
+# Restore dependencies first
+RUN dotnet restore
+
+# Install Linux dependencies
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
     unzip \
-    gnupg
+    gnupg \
+ && rm -rf /var/lib/apt/lists/*
 
-# Download Chrome package
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
->> /etc/apt/sources.list.d/google.list'
+# Add Google Chrome repository
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list'
+
 # Install Chrome
-RUN apt-get update && apt-get install -y google-chrome-stable
+RUN apt-get update && apt-get install -y google-chrome-stable \
+ && rm -rf /var/lib/apt/lists/*
 
-#Latest Chrome installed, Selenium Manager fetches matching driver automatically
+# Copy remaining source code
+COPY . .
 
-# Restore and build project
-RUN dotnet restore
-RUN dotnet build
+# Build project
+RUN dotnet build --no-restore
 
-CMD ["dotnet", "test"]
+CMD ["dotnet", "test", "--no-build"]
