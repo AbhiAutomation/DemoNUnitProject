@@ -8,19 +8,7 @@ pipeline {
 
     stages {
 
-        stage('Clone Code') {
-            steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/AbhiAutomation/DemoNUnitProject.git'
-                    ]]
-                ])
-            }
-        }
-
-        stage('Verify Files') {
+          stage('Verify Files') {
             steps {
                 sh 'pwd'
                 sh 'ls -la'
