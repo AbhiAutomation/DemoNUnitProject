@@ -10,8 +10,20 @@ pipeline {
 
         stage('Clone Code') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/AbhiAutomation/DemoNUnitProject.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/AbhiAutomation/DemoNUnitProject.git'
+                    ]]
+                ])
+            }
+        }
+
+        stage('Verify Files') {
+            steps {
+                sh 'pwd'
+                sh 'ls -la'
             }
         }
 
@@ -23,14 +35,12 @@ pipeline {
 
         stage('Run NUnit Tests') {
             steps {
-                script {
-                    sh '''
-                        mkdir -p allure-results
-                        docker run --name $CONTAINER_NAME --rm \
-                        -v $(pwd)/allure-results:/app/allure-results \
-                        $IMAGE_NAME
-                    '''
-                }
+                sh '''
+                    mkdir -p allure-results
+                    docker run --rm \
+                    -v $(pwd)/allure-results:/app/allure-results \
+                    $IMAGE_NAME
+                '''
             }
         }
 
