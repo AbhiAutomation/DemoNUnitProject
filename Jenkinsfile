@@ -8,7 +8,14 @@ pipeline {
 
     stages {
 
-          stage('Verify Files') {
+        stage('Clone Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/AbhiAutomation/DemoNUnitProject.git'
+            }
+        }
+
+        stage('Verify Files') {
             steps {
                 sh 'pwd'
                 sh 'ls -la'
