@@ -1,20 +1,35 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "nunit-automation"
+        CONTAINER_NAME = "nunit-test-container"
+    }
+
     stages {
+
+        stage('Clone Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/AbhiAutomation/DemoNUnitProject.git'
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t nunit-automation .'
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
         stage('Run NUnit Tests') {
             steps {
                 script {
-                    catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                        bat 'docker run --rm -v "%cd%\\allure-results:/app/allure-results" nunit-automation'
-                    }
+                    sh '''
+                        mkdir -p allure-results
+                        docker run --name $CONTAINER_NAME --rm \
+                        -v $(pwd)/allure-results:/app/allure-results \
+                        $IMAGE_NAME
+                    '''
                 }
             }
         }
@@ -33,6 +48,15 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'allure-results/**', fingerprint: true
+            cleanWs()
+        }
+
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed. Check logs.'
         }
     }
 }
