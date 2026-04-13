@@ -11,11 +11,12 @@ pipeline {
 
         stage('Run NUnit Tests') {
             steps {
-                script {
-                    catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-                        sh 'docker run --rm -v "%cd%\\allure-results:/app/allure-results" nunit-automation'
-                    }
-                }
+                sh '''
+                    mkdir -p allure-results
+                    docker run --rm \
+                    -v $(pwd)/allure-results:/app/allure-results \
+                    nunit-automation
+                '''
             }
         }
 
