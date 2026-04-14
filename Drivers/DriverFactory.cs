@@ -18,6 +18,7 @@ namespace DemoNUnitProject.Drivers
                     options.AddArgument("--disable-dev-shm-usage");
                     options.AddArgument("--disable-gpu");
                     options.AddArgument("--remote-debugging-port=9222");
+                    options.BinaryLocation = "/usr/bin/google-chrome";
 
                     return new ChromeDriver(options);
 
