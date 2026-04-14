@@ -2,7 +2,7 @@
 
 echo "Running NUnit Tests..."
 
-dotnet test /app/DemoNUnitProject.dll --logger "console;verbosity=detailed" || true
+dotnet test /app/DemoNUnitProject.csproj --logger "console;verbosity=detailed" || true
 
 echo "Generating Allure Report..."
 
