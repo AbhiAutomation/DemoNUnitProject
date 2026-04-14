@@ -12,4 +12,4 @@ echo "Uploading Allure Report to S3..."
 
 aws s3 cp /app/allure-report s3://nunit-allure-reports-abhishek-815114590433/allure-report --recursive
 
-echo "Done uploading report."
+echo "Done uploading report." 
