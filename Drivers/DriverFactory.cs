@@ -13,9 +13,11 @@ namespace DemoNUnitProject.Drivers
             {
                 case "chrome":
                     ChromeOptions options = new ChromeOptions();
-                    options.AddArgument("--headless");
+                    options.AddArgument("--headless=new");
                     options.AddArgument("--no-sandbox");
                     options.AddArgument("--disable-dev-shm-usage");
+                    options.AddArgument("--disable-gpu");
+                    options.AddArgument("--remote-debugging-port=9222");
 
                     return new ChromeDriver(options);
 
