@@ -35,6 +35,7 @@ namespace DemoNUnitProject.Tests
          * Valid Login Test
          */
         [Test]
+        [Category("API")]
         public void LoginTest()
         {
             /*
